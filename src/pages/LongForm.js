@@ -1,7 +1,38 @@
 import React, { useReducer } from "react";
-import { initialState, reducer } from "../state/formReducer";
+import { act } from "react-dom/test-utils";
+
 
 const LongForm = () => {
+
+const initialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  gender:"",
+  education:"",
+  feedback:"",
+  term: false,
+
+}
+
+const reducer = (state , action)=>{
+  console.log(action)
+  switch(action.type){
+    case "INPUT":
+      return{
+        ...state , 
+        [action.payload.name]: action.payload.name,
+      };
+      case "TOGGLE":
+      return{
+        ...state , 
+        term: !state.term
+      };
+      default:
+        return state
+  }
+
+}  
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const submit = (event) => {
@@ -12,6 +43,8 @@ const LongForm = () => {
 
   return (
     <div className='h-screen w-screen flex justify-center items-center overflow-auto'>
+    
+    
       <form
         className='shadow-lg p-10 rounded-md flex flex-wrap gap-3 max-w-3xl justify-between'
         onSubmit={submit}
@@ -80,7 +113,7 @@ const LongForm = () => {
                   })
                 }
               />
-              <label className='ml-2 text-lg' for='male'>
+              <label className='ml-2 text-lg' htmlFor='male'>
                 Male
               </label>
             </div>
@@ -97,7 +130,7 @@ const LongForm = () => {
                   })
                 }
               />
-              <label className='ml-2 text-lg' for='female'>
+              <label className='ml-2 text-lg' htmlFor='female'>
                 Female
               </label>
             </div>
@@ -114,14 +147,14 @@ const LongForm = () => {
                   })
                 }
               />
-              <label className='ml-2 text-lg' for='other'>
+              <label className='ml-2 text-lg' htmlFor='other'>
                 Other
               </label>
             </div>
           </div>
         </div>
         <div className='flex flex-col w-full max-w-xs'>
-          <label className='mb-3' for='education'>
+          <label className='mb-3' htmlFor='education'>
             Education
           </label>
           <select
@@ -155,7 +188,7 @@ const LongForm = () => {
           </div>
         </div>
         <div className='flex flex-col w-full max-w-xs'>
-          <label className='mb-3' for='feedback'>
+          <label className='mb-3' htmlFor='feedback'>
             Feedback
           </label>
           <textarea
@@ -181,7 +214,7 @@ const LongForm = () => {
               id='terms'
               onClick={() => dispatch({ type: "TOGGLE" })}
             />
-            <label for='terms'>I agree to terms and conditions</label>
+            <label htmlFor='terms'>I agree to terms and conditions</label>
           </div>
           <button
             className=' px-4 py-3 bg-indigo-500 rounded-md font-semibold text-white text-lg disabled:bg-gray-500'
